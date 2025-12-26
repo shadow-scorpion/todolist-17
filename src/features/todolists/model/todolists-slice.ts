@@ -4,12 +4,18 @@ import type { RequestStatus } from "@/common/types"
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { todolistsApi } from "@/features/todolists/api/todolistsApi"
 import { type Todolist, todolistSchema } from "@/features/todolists/api/todolistsApi.types"
+import { clearTasksAndTodolists } from "@/common/actions/common.actions.ts"
 
 export const todolistsSlice = createAppSlice({
   name: "todolists",
   initialState: [] as DomainTodolist[],
   selectors: {
     selectTodolists: (state) => state,
+  },
+  extraReducers: builder => {
+    builder.addCase(clearTasksAndTodolists.type, () => {
+      return []
+    })
   },
   reducers: (create) => ({
     fetchTodolistsTC: create.asyncThunk(
@@ -109,6 +115,9 @@ export const todolistsSlice = createAppSlice({
         },
       },
     ),
+    clearTodolists: create.reducer(() => {
+      return []
+    }),
     changeTodolistFilterAC: create.reducer<{ id: string; filter: FilterValues }>((state, action) => {
       const todolist = state.find((todolist) => todolist.id === action.payload.id)
       if (todolist) {
@@ -132,6 +141,7 @@ export const {
   changeTodolistTitleTC,
   changeTodolistFilterAC,
   changeTodolistStatusAC,
+  clearTodolists
 } = todolistsSlice.actions
 export const todolistsReducer = todolistsSlice.reducer
 

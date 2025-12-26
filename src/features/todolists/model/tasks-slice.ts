@@ -5,6 +5,7 @@ import { createAppSlice, handleServerAppError, handleServerNetworkError } from "
 import { tasksApi } from "@/features/todolists/api/tasksApi"
 import { type DomainTask, domainTaskSchema, type UpdateTaskModel } from "@/features/todolists/api/tasksApi.types"
 import { createTodolistTC, deleteTodolistTC } from "./todolists-slice"
+import { clearTasksAndTodolists } from "@/common/actions/common.actions.ts"
 
 export const tasksSlice = createAppSlice({
   name: "tasks",
@@ -19,6 +20,9 @@ export const tasksSlice = createAppSlice({
       })
       .addCase(deleteTodolistTC.fulfilled, (state, action) => {
         delete state[action.payload.id]
+      })
+      .addCase(clearTasksAndTodolists.type, () => {
+        return {}
       })
   },
   reducers: (create) => ({
@@ -140,6 +144,9 @@ export const tasksSlice = createAppSlice({
         },
       },
     ),
+    clearTasks: create.reducer(()=> {
+      return {}
+    }),
     changeTaskTitleAC: create.reducer<{ todolistId: string; taskId: string; title: string }>((state, action) => {
       const task = state[action.payload.todolistId].find((task) => task.id === action.payload.taskId)
       if (task) {
@@ -150,7 +157,7 @@ export const tasksSlice = createAppSlice({
 })
 
 export const { selectTasks } = tasksSlice.selectors
-export const { fetchTasksTC, createTaskTC, deleteTaskTC, updateTaskTC } = tasksSlice.actions
+export const { fetchTasksTC, createTaskTC, deleteTaskTC, updateTaskTC, clearTasks } = tasksSlice.actions
 export const tasksReducer = tasksSlice.reducer
 
 export type TasksState = Record<string, DomainTask[]>
