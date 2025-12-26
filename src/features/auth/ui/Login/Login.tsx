@@ -43,22 +43,21 @@ export const Login = () => {
     defaultValues: { email: "", password: "", rememberMe: false },
   })
 
+  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+    dispatch(loginTC(data))
+    // .unwrap()
+    // .then(() => {
+    //   navigate(Path.Main)
+    // })
+    // .catch((e) => {
+    //   console.log(e)
+    // })
+    // reset()
+  }
+
   // if (isLoggerIn) {
   //   return <Navigate to={Path.Main} />
   // }
-
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    dispatch(loginTC(data))
-      .unwrap()
-      .then((res) => {
-        console.log(res)
-        navigate(Path.Main)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
-    // reset()
-  }
 
   return (
     <Grid container justifyContent={"center"}>

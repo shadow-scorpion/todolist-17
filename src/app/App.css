@@ -3,3 +3,7 @@
   flex-direction: column;
   width: 100vw;
 }
+
+.circularProgressContainer {
+    margin-left: 100%;
+}
